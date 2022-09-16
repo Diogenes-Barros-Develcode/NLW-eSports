@@ -12,6 +12,7 @@ import chevronLeft from '../../assets/chevron-left.png';
 import {styles} from './styles';
 import {Heading} from '../../components/Heading';
 import {DouCard, DuoCardProps} from '../../components/DouCard';
+import {DuoMach} from '../../components/DuoMach';
 import {Text} from 'react-native';
 
 export function Game() {
@@ -19,6 +20,7 @@ export function Game() {
   const game = route.params as GameParams;
   const navigation = useNavigation();
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
+  const [discordDuoSelected, setDiscordDuoSelected] = useState('dsada');
 
   function handleGoBack() {
     navigation.goBack();
@@ -75,6 +77,12 @@ export function Game() {
               Não há anúncios publicados ainda.
             </Text>
           )}
+        />
+
+        <DuoMach
+          visible={discordDuoSelected.length > 0}
+          discord="diógenes"
+          onClose={() => setDiscordDuoSelected('')}
         />
       </SafeAreaView>
     </Background>
