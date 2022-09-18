@@ -20,18 +20,29 @@ export function Game() {
   const game = route.params as GameParams;
   const navigation = useNavigation();
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
-  const [discordDuoSelected, setDiscordDuoSelected] = useState('dsada');
+  const [discordDuoSelected, setDiscordDuoSelected] = useState('');
 
   function handleGoBack() {
     navigation.goBack();
   }
 
   const renderItem = ({item}: {item: DuoCardProps}) => {
-    return <DouCard data={item} onConnect={() => {}} />;
+    return <DouCard data={item} onConnect={() => getDiscordUser(item.id)} />;
   };
 
+  async function getDiscordUser(adsId: string) {
+    fetch(`http://192.168.0.7:3333/ads/${adsId}/discord`)
+      .then(response => response.json())
+      .then(data => {
+        setDiscordDuoSelected(data.discord);
+      })
+      .catch(error => {
+        console.log('Erro', error);
+      });
+  }
+
   useEffect(() => {
-    fetch(`http://172.22.19.61:3333/games/${game.id}/ads`)
+    fetch(`http://192.168.0.7:3333/games/${game.id}/ads`)
       .then(response => response.json())
       .then(data => {
         setDuos(data);
